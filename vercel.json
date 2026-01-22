@@ -1,0 +1,17 @@
+{
+    "functions": {
+        "build/server/index.js": {
+            "runtime": "nodejs18.x"
+        }
+    },
+    "routes": [
+        {
+            "src": "/assets/(.*)",
+            "dest": "/build/client/assets/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/build/server/index.js"
+        }
+    ]
+}
