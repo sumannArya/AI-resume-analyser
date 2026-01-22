@@ -156,7 +156,7 @@ const Upload = () => {
 
       <Navbar />
 
-      <section className="container mx-auto px-4 py-32 flex flex-col items-center justify-center min-h-[80vh]">
+      <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col items-center justify-center min-h-[80vh]">
 
         {/* Processing State */}
         <div ref={loadingRef} className="hidden flex-col items-center gap-8 text-center max-w-md w-full">
@@ -168,10 +168,10 @@ const Upload = () => {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary">
+            <h2 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-secondary">
               Parsing Resume
             </h2>
-            <p className="text-xl text-text-muted font-light">{statusText}</p>
+            <p className="text-lg md:text-xl text-text-muted font-light">{statusText}</p>
           </div>
 
           {/* Progress Steps Visual */}
@@ -191,11 +191,11 @@ const Upload = () => {
 
         {/* Input Form */}
         <div ref={containerRef} className={`${isProcessing ? 'hidden' : 'block'} w-full max-w-4xl`}>
-          <div className="text-center mb-12 space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">
+          <div className="text-center mb-8 md:mb-12 space-y-4">
+            <h1 className="text-3xl md:text-5xl font-bold text-white">
               Upload Your Resume
             </h1>
-            <p className="text-text-muted text-lg">
+            <p className="text-text-muted text-base md:text-lg">
               Get instant AI feedback on your resume tailored for specific job roles.
             </p>
           </div>
@@ -205,7 +205,7 @@ const Upload = () => {
               ref={formRef}
               id="upload-form"
               onSubmit={handleSubmit}
-              className="bg-brand-dark/50 backdrop-blur-xl rounded-xl p-8 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-10"
+              className="bg-brand-dark/50 backdrop-blur-xl rounded-xl p-6 md:p-10 grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10"
             >
               {/* Left Column: Job Details */}
               <div className="space-y-6">

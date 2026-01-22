@@ -85,11 +85,13 @@ const Resume = () => {
     <main className="min-h-screen bg-brand-dark pt-0">
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 glass border-b border-white/10 px-8 py-4 mb-8">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 glass border-b border-white/10 px-4 md:px-8 py-4 mb-8">
         <div className="container mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-text-muted hover:text-white transition-colors">
             <ChevronLeft className="w-5 h-5" />
-            <span className="font-medium">Back to Dashboard</span>
+            <span className="font-medium hidden md:inline">Back to Dashboard</span>
+            <span className="font-medium md:hidden">Back</span>
           </Link>
 
           <div className="flex items-center gap-4">
@@ -99,7 +101,8 @@ const Resume = () => {
             {resumeUrl && (
               <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="primary-button !py-2 !px-4 flex items-center gap-2 text-sm">
                 <Download className="w-4 h-4" />
-                Download PDF
+                <span className="hidden md:inline">Download PDF</span>
+                <span className="md:hidden">PDF</span>
               </a>
             )}
           </div>
@@ -110,9 +113,9 @@ const Resume = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
 
           {/* Left Column: Resume Visual */}
-          <section className="lg:col-span-4 xl:col-span-5 relative">
-            <div ref={imageRef} className="sticky top-28">
-              <div className="glass-card p-2 rounded-xl h-[80vh] overflow-hidden group">
+          <section className="lg:col-span-4 xl:col-span-5 relative order-2 lg:order-1">
+            <div ref={imageRef} className="lg:sticky lg:top-28">
+              <div className="glass-card p-2 rounded-xl h-[50vh] lg:h-[80vh] overflow-hidden group">
                 {imageUrl ? (
                   <div className="w-full h-full rounded-lg overflow-y-auto scrollbar-hide bg-white/5">
                     <img
@@ -136,7 +139,7 @@ const Resume = () => {
           </section>
 
           {/* Right Column: Analysis */}
-          <section ref={contentRef} className="lg:col-span-8 xl:col-span-7 space-y-8">
+          <section ref={contentRef} className="lg:col-span-8 xl:col-span-7 space-y-8 order-1 lg:order-2">
             <div className="flex flex-col gap-2">
               <h1 className="text-4xl font-bold text-white">Analysis Report</h1>
               <p className="text-text-muted">AI-generated insights to improve your resume impact.</p>

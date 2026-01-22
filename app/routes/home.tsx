@@ -77,10 +77,10 @@ export default function Home() {
 
       <Navbar />
 
-      <section className="container mx-auto px-6 pb-20 pt-10">
+      <section className="container mx-auto px-4 pb-12 pt-24 md:pb-20 md:pt-32">
         {/* Header Section */}
-        <div ref={heroRef} className="flex flex-col items-center text-center mb-16 space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-brand-primary">
+        <div ref={heroRef} className="flex flex-col items-center text-center mb-10 md:mb-16 space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs md:text-sm font-medium text-brand-primary">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
@@ -88,17 +88,17 @@ export default function Home() {
             AI-Powered Resume Analysis
           </div>
 
-          <h1 className="max-w-4xl">
+          <h1 className="max-w-4xl text-4xl md:text-6xl font-bold leading-tight">
             Track Your Applications & <br />
             <span className="text-gradient">Optimize Your Score</span>
           </h1>
 
           {!loadingResumes && resumes?.length === 0 ? (
-            <p className="max-w-2xl text-xl text-text-muted">
+            <p className="max-w-2xl text-lg md:text-xl text-text-muted px-4">
               Upload your first resume to get instant feedback on ATS compatibility, tone, and content.
             </p>
           ) : (
-            <p className="max-w-2xl text-xl text-text-muted">
+            <p className="max-w-2xl text-lg md:text-xl text-text-muted">
               Review your submissions and check AI-powered feedback.
             </p>
           )}
@@ -117,7 +117,7 @@ export default function Home() {
 
         {/* Content Grid */}
         {!loadingResumes && resumes.length > 0 && (
-          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {resumes.map((resume) => (
               <ResumeCard key={resume.id} resume={resume} />
             ))}
@@ -129,11 +129,11 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center py-10">
             <Link
               to="/upload"
-              className="group relative inline-flex h-16 items-center justify-center overflow-hidden rounded-full bg-brand-primary px-10 font-medium text-white transition-all duration-300 hover:w-64 hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+              className="group relative inline-flex h-14 md:h-16 items-center justify-center overflow-hidden rounded-full bg-brand-primary px-8 md:px-10 font-medium text-white transition-all duration-300 hover:w-64 hover:bg-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
             >
               <div className="inline-flex items-center gap-3 transition-all duration-300 group-hover:gap-4">
-                <Upload className="h-6 w-6" />
-                <span className="text-xl">Upload Resume</span>
+                <Upload className="h-5 w-5 md:h-6 md:w-6" />
+                <span className="text-lg md:text-xl">Upload Resume</span>
                 <ArrowRight className="h-0 w-0 opacity-0 transition-all duration-300 group-hover:h-6 group-hover:w-6 group-hover:opacity-100" />
               </div>
             </Link>

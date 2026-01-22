@@ -64,7 +64,7 @@ const Auth = () => {
             <span className="text-xl font-bold tracking-tight text-white">AutoRes.AI</span>
           </div>
 
-          <h1 className="text-5xl lg:text-7xl font-bold leading-tight text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight text-white">
             Refine Your <br />
             <span className="text-gradient">Professional Story</span>
           </h1>
