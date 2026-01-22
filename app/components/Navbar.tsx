@@ -1,11 +1,19 @@
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { Home, Upload, Sparkles } from 'lucide-react';
+import { Home, Upload, Sparkles, LogOut } from 'lucide-react';
+import { usePuterStore } from '~/lib/puter';
 
 const Navbar = () => {
   const navRef = useRef<HTMLElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { auth: { signOut } } = usePuterStore();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/auth');
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,6 +51,13 @@ const Navbar = () => {
           <Home className="w-4 h-4" />
           Home
         </Link>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-white text-text-muted hover:bg-brand-white/5 px-3 py-1.5 rounded-lg cursor-pointer"
+        >
+          <LogOut className="w-4 h-4" />
+          Logout
+        </button>
 
         <Link
           to="/upload"
@@ -52,7 +67,7 @@ const Navbar = () => {
           Analyze Resume
         </Link>
       </div>
-    </nav>
+    </nav >
   );
 };
 
