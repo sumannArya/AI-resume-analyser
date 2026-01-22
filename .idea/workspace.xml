@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e653b71e-bea1-4af5-acc1-d696f0f61053" name="Changes" comment="add authentication">
-      <change afterPath="$PROJECT_DIR$/app/routes/wipe.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/global.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/ATS.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/ATS.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/Accordian.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Accordion.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/Details.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Details.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/pdf2img.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/pdf2img.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/upload.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/upload.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/puter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/puter.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-router.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/react-router.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +88,11 @@
       <updated>1767330968570</updated>
       <workItem from="1767330969587" duration="19588000" />
       <workItem from="1767464316112" duration="1007000" />
-      <workItem from="1767505511502" duration="5279000" />
+      <workItem from="1767505511502" duration="7106000" />
+      <workItem from="1767618305668" duration="2883000" />
+      <workItem from="1767638234017" duration="1145000" />
+      <workItem from="1767961898787" duration="3497000" />
+      <workItem from="1769082334150" duration="454000" />
     </task>
     <task id="LOCAL-00001" summary="add authentication">
       <option name="closed" value="true" />
@@ -118,7 +118,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/constants/index.ts</url>
           <line>145</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

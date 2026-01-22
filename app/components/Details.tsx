@@ -1,33 +1,21 @@
 import { cn } from '~/lib/utils';
-import {Accordion, AccordionContent, AccordionHeader, AccordionItem,} from "./Accordion";
+import { Accordion, AccordionContent, AccordionHeader, AccordionItem, } from "./Accordion";
+import { Check, AlertTriangle } from 'lucide-react';
 
 const ScoreBadge = ({ score }: { score: number }) => {
   return (
     <div
       className={cn(
-        'flex flex-row gap-1 items-center px-2 py-0.5 rounded-[96px]',
+        'flex flex-row gap-1 items-center px-3 py-1 rounded-full border',
         score > 69
-          ? 'bg-badge-green'
+          ? 'bg-green-500/10 border-green-500/20 text-green-400'
           : score > 39
-            ? 'bg-badge-yellow'
-            : 'bg-badge-red',
+            ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
+            : 'bg-red-500/10 border-red-500/20 text-red-400',
       )}
     >
-      <img
-        src={score > 69 ? '/icons/check.svg' : '/icons/warning.svg'}
-        alt="score"
-        className="size-4"
-      />
-      <p
-        className={cn(
-          'text-sm font-medium',
-          score > 69
-            ? 'text-badge-green-text'
-            : score > 39
-              ? 'text-badge-yellow-text'
-              : 'text-badge-red-text',
-        )}
-      >
+      {score > 69 ? <Check className="w-3 h-3" /> : <AlertTriangle className="w-3 h-3" />}
+      <p className="text-xs font-bold">
         {score}/100
       </p>
     </div>
@@ -42,8 +30,8 @@ const CategoryHeader = ({
   categoryScore: number;
 }) => {
   return (
-    <div className="flex flex-row gap-4 items-center py-2">
-      <p className="text-2xl font-semibold">{title}</p>
+    <div className="flex flex-row gap-4 items-center py-2 text-white">
+      <p className="text-lg font-semibold">{title}</p>
       <ScoreBadge score={categoryScore} />
     </div>
   );
@@ -55,45 +43,42 @@ const CategoryContent = ({
   tips: { type: 'good' | 'improve'; tip: string; explanation: string }[];
 }) => {
   return (
-    <div className="flex flex-col gap-4 items-center w-full">
-      <div className="bg-gray-50 w-full rounded-lg px-5 py-4 grid grid-cols-2 gap-4">
+    <div className="flex flex-col gap-6 items-center w-full pt-4">
+      {/* Quick Tips Grid */}
+      <div className="bg-white/5 w-full rounded-xl p-5 grid grid-cols-1 md:grid-cols-2 gap-4 border border-white/5">
         {tips.map((tip, index) => (
-          <div className="flex flex-row gap-2 items-center" key={index}>
-            <img
-              src={
-                tip.type === 'good' ? '/icons/check.svg' : '/icons/warning.svg'
-              }
-              alt="score"
-              className="size-5"
-            />
-            <p className="text-xl text-gray-500 ">{tip.tip}</p>
+          <div className="flex flex-row gap-3 items-center" key={index}>
+            <div className={`p-1.5 rounded-full ${tip.type === 'good' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+              {tip.type === 'good' ? <Check className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
+            </div>
+            <p className="text-sm font-medium text-gray-300">{tip.tip}</p>
           </div>
         ))}
       </div>
+
+      {/* Detailed Cards */}
       <div className="flex flex-col gap-4 w-full">
         {tips.map((tip, index) => (
           <div
             key={index + tip.tip}
             className={cn(
-              'flex flex-col gap-2 rounded-2xl p-4',
+              'flex flex-col gap-2 rounded-xl p-5 border transition-all hover:bg-white/5',
               tip.type === 'good'
-                ? 'bg-green-50 border border-green-200 text-green-700'
-                : 'bg-yellow-50 border border-yellow-200 text-yellow-700',
+                ? 'bg-green-500/5 border-green-500/20'
+                : 'bg-yellow-500/5 border-yellow-500/20',
             )}
           >
-            <div className="flex flex-row gap-2 items-center">
-              <img
-                src={
-                  tip.type === 'good'
-                    ? '/icons/check.svg'
-                    : '/icons/warning.svg'
-                }
-                alt="score"
-                className="size-5"
-              />
-              <p className="text-xl font-semibold">{tip.tip}</p>
+            <div className="flex flex-row gap-3 items-center">
+              {tip.type === 'good' ? (
+                <Check className="w-5 h-5 text-green-400" />
+              ) : (
+                <AlertTriangle className="w-5 h-5 text-yellow-400" />
+              )}
+              <p className={`text-lg font-semibold ${tip.type === 'good' ? 'text-green-400' : 'text-yellow-400'}`}>
+                {tip.tip}
+              </p>
             </div>
-            <p>{tip.explanation}</p>
+            <p className="text-text-muted text-sm leading-relaxed pl-8">{tip.explanation}</p>
           </div>
         ))}
       </div>
@@ -103,7 +88,7 @@ const CategoryContent = ({
 
 const Details = ({ feedback }: { feedback: Feedback }) => {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full text-white">
       <Accordion>
         <AccordionItem id="tone-style">
           <AccordionHeader itemId="tone-style">
