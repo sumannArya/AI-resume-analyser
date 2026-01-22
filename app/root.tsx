@@ -23,10 +23,11 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap",
   },
+  { rel: "icon", type: "image/png", href: "/icons/resLogo.png" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const {init} = usePuterStore()
+  const { init } = usePuterStore()
 
   useEffect(() => {
     init();
