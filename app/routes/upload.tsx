@@ -30,6 +30,24 @@ const Upload = () => {
     setStatusText(text);
   };
 
+  /* Helper to prevent indefinite hangs */
+  const withTimeout = <T,>(promise: Promise<T>, ms: number, message: string): Promise<T> => {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new Error(message));
+      }, ms);
+      promise
+        .then((value) => {
+          clearTimeout(timer);
+          resolve(value);
+        })
+        .catch((reason) => {
+          clearTimeout(timer);
+          reject(reason);
+        });
+    });
+  };
+
   const handleAnalyze = async ({
     companyName,
     jobTitle,
@@ -57,66 +75,93 @@ const Upload = () => {
       }
     });
 
-    updateStatus('Uploading file...');
-    console.log('Uploading file:', file);
-    const uploadedFile = await fs.upload([file]);
-    if (!uploadedFile) return updateStatus('Error: Failed to upload file');
+    try {
+      updateStatus('Uploading file...');
+      console.log('Uploading file:', file);
 
-    updateStatus('Converting PDF to image...');
-    const imageFile = await convertPdfToImage(file);
-    console.log('Starting PDF → Image conversion');
+      const uploadedFile = await withTimeout(
+        fs.upload([file]),
+        30000,
+        "File upload timed out (30s). Please check your internet connection."
+      );
 
-    if (!imageFile.file)
-      return updateStatus('Error: Failed to convert PDF to image');
+      if (!uploadedFile) throw new Error('Failed to upload file (fs.upload returned null)');
 
-    updateStatus('Uploading image assets...');
-    const uploadedImage = await fs.upload([imageFile.file]);
-    if (!uploadedImage) return updateStatus('Error: Failed to upload image');
+      updateStatus('Converting PDF to image...');
+      console.log('Starting PDF → Image conversion');
 
-    updateStatus('Structuring data...');
-    const uuid = generateUUID();
-    const data = {
-      id: uuid,
-      resumePath: uploadedFile.path,
-      imagePath: uploadedImage.path,
-      companyName,
-      jobTitle,
-      jobDescription,
-      feedback: '',
-    };
-    await kv.set(`resume:${uuid}`, JSON.stringify(data));
+      const imageFile = await withTimeout(
+        convertPdfToImage(file),
+        45000,
+        "PDF conversion timed out (45s). The file might be too complex or corrupt."
+      );
 
-    updateStatus('AI Analysis in progress...');
+      if (!imageFile.file) throw new Error(imageFile.error || 'Failed to convert PDF to image');
 
-    const feedback = await ai.feedback(
-      uploadedFile.path,
-      prepareInstructions({
+      updateStatus('Uploading image assets...');
+      const uploadedImage = await withTimeout(
+        fs.upload([imageFile.file]),
+        30000,
+        "Image upload timed out (30s)."
+      );
+
+      if (!uploadedImage) throw new Error('Failed to upload converted image');
+
+      updateStatus('Structuring data...');
+      const uuid = generateUUID();
+      const data = {
+        id: uuid,
+        resumePath: uploadedFile.path,
+        imagePath: uploadedImage.path,
+        companyName,
         jobTitle,
         jobDescription,
-        AIResponseFormat,
-      }),
-    );
+        feedback: '',
+      };
+      await kv.set(`resume:${uuid}`, JSON.stringify(data));
 
-    if (!feedback) return updateStatus('Error: Failed to analyze resume');
+      updateStatus('AI Analysis in progress...');
 
-    const feedbackText =
-      typeof feedback.message.content === 'string'
-        ? feedback.message.content
-        : feedback.message.content[0].text;
+      const feedback = await withTimeout(
+        ai.feedback(
+          uploadedFile.path,
+          prepareInstructions({
+            jobTitle,
+            jobDescription,
+            AIResponseFormat,
+          }),
+        ),
+        60000,
+        "AI Analysis timed out (60s). The service might be busy."
+      );
 
-    let parsedFeedback;
+      if (!feedback) throw new Error('Failed to analyze resume (AI returned null)');
 
-    try {
-      parsedFeedback = JSON.parse(feedbackText);
-    } catch (err) {
-      console.error('Invalid AI JSON:', feedbackText);
-      updateStatus('Error: AI returned invalid JSON');
-      return;
+      const feedbackText =
+        typeof feedback.message.content === 'string'
+          ? feedback.message.content
+          : feedback.message.content[0].text;
+
+      let parsedFeedback;
+
+      try {
+        parsedFeedback = JSON.parse(feedbackText);
+      } catch (err) {
+        console.error('Invalid AI JSON:', feedbackText);
+        throw new Error('AI returned invalid JSON format');
+      }
+
+      data.feedback = parsedFeedback;
+      await kv.set(`resume:${uuid}`, JSON.stringify(data));
+      navigate(`/resume/${uuid}`);
+
+    } catch (error: any) {
+      console.error("Upload/Analysis Error:", error);
+      updateStatus(`Error: ${error.message || "An unexpected error occurred"}`);
+      // Ideally show a "Retry" button or reset state here, 
+      // but for now let's just leave the error message visible so user knows what happened.
+      // setIsProcessing(false); // Uncomment if we want to reset UI immediately
     }
-
-    data.feedback = parsedFeedback;
-    await kv.set(`resume:${uuid}`, JSON.stringify(data));
-    navigate(`/resume/${uuid}`);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

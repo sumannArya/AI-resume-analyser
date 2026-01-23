@@ -39,7 +39,11 @@ export async function convertPdfToImage(
     const arrayBuffer = await file.arrayBuffer();
 
     console.log('PDF2IMG: parsing pdf');
-    const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
+    const pdf = await lib.getDocument({
+      data: arrayBuffer,
+      cMapUrl: `https://unpkg.com/pdfjs-dist@${lib.version}/cmaps/`,
+      cMapPacked: true,
+    }).promise;
 
     console.log('PDF2IMG: loading page');
     const page = await pdf.getPage(1);
