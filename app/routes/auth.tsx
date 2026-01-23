@@ -74,7 +74,7 @@ const Auth = () => {
           </p>
 
           <div className="hidden lg:flex items-center gap-6 text-sm text-white/40 font-medium pt-8">
-            <span>© 2024 AutoRes.AI</span>
+            <span>© 2026 AutoRes.AI</span>
             <span className="w-1 h-1 rounded-full bg-white/20"></span>
             <span>Powered by Puter</span>
           </div>
